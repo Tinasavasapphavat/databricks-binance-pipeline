@@ -1,0 +1,20 @@
+main:
+  url: https://api4.binance.com/api/v3/aggTrades
+  limit: 1000
+
+pipelines:
+  BTCUSDT:
+    dataset: trades
+    table: BTCUSDT 
+    param_path: data/BTCUSDT/params.txt
+    raw_path: data/BTCUSDT/raw.csv
+    transform_path: data/BTCUSDT/transform.csv
+
+  ETHUSDT:
+    dataset: trades
+    table: ETHUSDT
+    param_path: data/BTCUSDT/params.txt
+    raw_path: data/ETHUSDT/raw.csv
+    transform_path: data/ETHUSDT/transform.csv
+
+    
