@@ -2,21 +2,27 @@ import pandas as pd
 import requests 
 from datetime import datetime
 
+
 class BINANCE:
-    def __init__(self, url : str ,symbol : str, limit: int):
+    def __init__(self, url : str ,symbol : str, limit: int, path , param_path:str):
         self.url : str = url
         self.symbol : str = symbol
         self.limit : int = limit
+        self.param_path = path / param_path
+        self.path = path
         
 
-    def get_latest_ts(self,param_path):
+    def get_latest_ts(self):
         try:
-            with open(param_path,"r") as f:
+            
+            with open(self.param_path,"r") as f:
                 content = f.read().strip()
             start = int(content) if content else 1767225600000
             self.start_ts : int = start
             self.end_ts : int = start + 3600000
-            print(f"Fetching {datetime.utcfromtimestamp(self.start_ts/1000).strftime("%Y-%m-%d %H:%M:%S")} - {datetime.utcfromtimestamp(self.end_ts/1000).strftime("%Y-%m-%d %H:%M:%S")}")
+            dt_start = datetime.utcfromtimestamp(self.start_ts/1000).strftime("%Y-%m-%d %H:%M:%S")
+            dt_end = datetime.utcfromtimestamp(self.end_ts/1000).strftime("%Y-%m-%d %H:%M:%S")
+            print(f"Fetching {dt_start} - {dt_end}")
         except Exception as e:
             raise e
 
@@ -43,7 +49,9 @@ class BINANCE:
                 if len(data) == self.limit:
                     end = (start+end)//2
                 else:
-                    print(f"Fetching {datetime.utcfromtimestamp(start/1000).strftime("%Y-%m-%d %H:%M:%S")} - {datetime.utcfromtimestamp(end/1000).strftime("%Y-%m-%d %H:%M:%S")} : {len(data)} rows")
+                    dt_start = datetime.utcfromtimestamp(start/1000).strftime("%Y-%m-%d %H:%M:%S")
+                    dt_end = datetime.utcfromtimestamp(end/1000).strftime("%Y-%m-%d %H:%M:%S")
+                    print(f"Fetching {dt_start} - {dt_end} : {len(data)} rows")
                     df = pd.DataFrame(data)
                     if len(df) != 0:
                         lst.append(df)
@@ -59,15 +67,16 @@ class BINANCE:
 
     def save_tmp(self,raw_path):
         try:
-            self.df.to_csv(raw_path,index=False)
+            path = self.path/raw_path
+            self.df.to_csv(path,index=False)
             print("SAVE RAW DATA SUCCEEDED")
         except Exception as e:
             print("SAVE RAW DATA FAILED")
             raise e
 
-    def update_latest_ts(self,param_path):
+    def update_latest_ts(self):
         try:
-            with open(param_path,"w") as f:
+            with open(self.param_path,"w") as f:
                 f.write(str(self.max_ts))
             print("UPDATE NEW TIMESTAMP SUCCEEDED")
         except Exception as e:

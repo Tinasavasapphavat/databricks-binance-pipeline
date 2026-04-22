@@ -9,6 +9,7 @@ pipelines:
     param_path: data/BTCUSDT/params.txt
     raw_path: data/BTCUSDT/raw.csv
     transform_path: data/BTCUSDT/transform.csv
+    s3_path: s3://databricks-binance-pipeline/BTCUSDT
 
   ETHUSDT:
     dataset: trades
@@ -16,5 +17,6 @@ pipelines:
     param_path: data/BTCUSDT/params.txt
     raw_path: data/ETHUSDT/raw.csv
     transform_path: data/ETHUSDT/transform.csv
+    s3_path: s3://databricks-binance-pipeline/ETHUSDT
 
     
