@@ -7,7 +7,7 @@ BASE_DIR = get_base_dir()
 config_path = BASE_DIR / "config" / "config.yaml"
 schema_path = BASE_DIR / "config" / "schema.yaml"
 
-symbol = "ETHßUSDT"
+symbol = "ETHUSDT"
 with open(config_path,'r') as f:
     config = yaml.safe_load(f)
 
