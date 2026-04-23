@@ -1,11 +1,11 @@
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from datetime import datetime
-
+import pendulum
 
 with DAG(
     dag_id="BTCUSDT_pipeline",
-    start_date=datetime(2026, 1, 1),
+    start_date=pendulum.datetime(2026, 1, 1, tz="UTC"),
     schedule="0 * * * *",  
     catchup=False,
 ) as dag:
