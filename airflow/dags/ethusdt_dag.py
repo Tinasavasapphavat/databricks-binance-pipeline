@@ -6,7 +6,7 @@ from datetime import datetime
 with DAG(
     dag_id="ETHUSDT_pipeline",
     start_date=datetime(2026, 1, 1),
-    schedule_interval=None,  # trigger manually
+    schedule_interval="0 * * * *",  
     catchup=False,
 ) as dag:
     
