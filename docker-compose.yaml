@@ -31,6 +31,7 @@ x-airflow-common:
 services:
   postgres:
     image: postgres:13
+    restart: always
     environment:
       POSTGRES_USER: airflow
       POSTGRES_PASSWORD: airflow
@@ -43,6 +44,7 @@ services:
 
   redis:
     image: redis:latest
+    restart: always
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
       interval: 10s
@@ -52,6 +54,7 @@ services:
   airflow-webserver:
     <<: *airflow-common
     build: .
+    restart: always
     command: webserver
     ports:
       - "8081:8080"
@@ -64,11 +67,13 @@ services:
   airflow-scheduler:
     <<: *airflow-common
     build: .
+    restart: always
     command: scheduler
 
   airflow-worker:
     <<: *airflow-common
     build: .
+    restart: always
     command: celery worker
     volumes:
       - ./airflow/dags:/opt/airflow/dags
